@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS project1.parcel_values (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS project1.parcel (
   parcel_id VARCHAR(45) NOT NULL,
-  cur_acres DECIMAL(8,6) NOT NULL,
-  land_use VARCHAR(45) NOT NULL,
+  cur_acres DECIMAL(12,6) NOT NULL,
+  land_use VARCHAR(255) NOT NULL,
   val_id INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (parcel_id),
   INDEX fk_parcel_parcel_values1_idx (val_id ASC),
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS project1.parcel (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS project1.parcel_loc (
   prop_center VARCHAR(255) NOT NULL,
-  st_num INT NOT NULL,
+  st_num VARCHAR(255) NOT NULL,
   st_name VARCHAR(255) NOT NULL,
   parcel_id VARCHAR(45) NOT NULL,
   loc_id INT NOT NULL AUTO_INCREMENT,
@@ -81,11 +81,12 @@ CREATE TABLE IF NOT EXISTS project1.parcel_loc (
 -- -----------------------------------------------------
 -- Table project1.building_info
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS project1.building_info (
   building_id INT NOT NULL AUTO_INCREMENT,
   tot_gross_area DECIMAL(12,6) NOT NULL,
   tot_finished_area DECIMAL(12,6) NOT NULL,
-  grade VARCHAR(255) NOT NULL,
+  grade VARCHAR(255),
   year_built INT NOT NULL,
   parcel_id VARCHAR(45) NOT NULL,
   PRIMARY KEY (building_id),
