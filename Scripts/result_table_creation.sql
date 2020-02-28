@@ -16,7 +16,12 @@ select parcel.parcel_id as 'ID', concat(parcel_loc.st_num, ' ', parcel_loc.st_na
 from parcel join parcel_loc on parcel.parcel_id = parcel_loc.parcel_id
 order by cur_acres DESC;
 
+/*
+Question 2
+What are the biggest buildings by street? (gross area)
+*/
 
+drop table if exists q2results;
 create table q2results(
 	tot_gross_area DECIMAL(12,6) not null,
     address VARCHAR(255) not null,
@@ -115,6 +120,12 @@ where ((temp_landval.cur_land_val - temp_acres.cur_land_val) > 0 and (temp_landv
 group by temp_landval.st_num, temp_landval.st_name
 );
 
+/*
+Question 4
+Does the total finished area influence value more than gross area? (buildings)
+*/
+
+drop table if exists q4results;
 create table q4results(
 	tot_gross_area DECIMAL(12,6) not null,
     tot_finished_area DECIMAL(12,6) not null,
@@ -133,6 +144,12 @@ insert into q4results(
 	order by (tot_gross_area-tot_finished_area) DESC
 );
 
+/*
+Question 5
+Does the current value of a property influence its grade? (overall property rating)
+*/
+
+drop table if exists q5results;
 create table q5results(
 	grade VARCHAR(255),
     cur_val INT not null,
