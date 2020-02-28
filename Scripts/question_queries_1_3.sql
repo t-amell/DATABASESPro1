@@ -1,17 +1,26 @@
 use project1;
 
 /*
-#Question 1
-#What are the biggest properties by street? (acreage)
-select parcel.parcel_id as 'ID', concat(parcel_loc.st_num, ' ', parcel_loc.st_name) as 'Street',
-	parcel.cur_acres as 'Acres', land_use as 'Usage'
-from parcel join parcel_loc on parcel.parcel_id = parcel_loc.parcel_id
-order by cur_acres DESC;
+Question 1
+What are the biggest properties by street? (acreage)
 */
 
+drop table if exists q1results;
+create table q1results(
+id varchar(45),
+street varchar(255),
+acres decimal(12, 6),
+land_use varchar(255)
+)
+select parcel.parcel_id as 'ID', concat(parcel_loc.st_num, ' ', parcel_loc.st_name) as 'Street',
+	parcel.cur_acres as 'Acres', land_use
+from parcel join parcel_loc on parcel.parcel_id = parcel_loc.parcel_id
+order by cur_acres DESC;
+
+
 /*
-Question 3
-Does acreage or location matter more in relation to land value? (land size vs. location)
+Question 3 Part 1
+Does acreage or location matter more in relation to land value? (acreage vs. location)
 Create a new temp table to hold data for this part of the question, which orders by land value
 */
 
@@ -66,6 +75,17 @@ Q3 Part 3: Run queries over the two temporary tables that will compare land valu
 		   If land value difference > 0 and acre difference > 0, then the higher value parcel is both bigger and worth more than the other property, therefore voiding a result
 */
 
+drop table if exists q3results;
+create table q3results(
+big_val_id varchar(255),
+big_acre_id varchar(255),
+big_val_st varchar(255),
+big_acre_st varchar(255),
+landval_diff int,
+acre_diff decimal(12, 6)
+);
+
+insert into q3results(
 select temp_landval.parcel_id as 'Bigger Value ID', temp_acres.parcel_id as 'Bigger Acre ID',
 	concat(temp_landval.st_num, ' ', temp_landval.st_name) as 'Bigger Value Street',
     concat(temp_acres.st_num, ' ', temp_acres.st_name) as 'Bigger Acre Street',
@@ -77,4 +97,8 @@ where ((temp_landval.cur_land_val - temp_acres.cur_land_val) > 0 and (temp_landv
 	  ((temp_landval.cur_land_val - temp_acres.cur_land_val) < 0 and (temp_landval.cur_acres - temp_acres.cur_acres) < 0) or
       ((temp_landval.cur_land_val - temp_acres.cur_land_val) < 0 and (temp_landval.cur_acres - temp_acres.cur_acres) > 0)
 
-group by temp_landval.st_num, temp_landval.st_name;
+group by temp_landval.st_num, temp_landval.st_name
+);
+
+#select * from q1results;
+select * from q3results;
